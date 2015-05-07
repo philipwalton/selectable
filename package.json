@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "description": "Easily get and set the text selection with an HTML element.",
   "scripts": {
-    "build": "gulp --require babel/register",
-    "watch": "gulp --require babel/register watch"
+    "build": "gulp",
+    "watch": "gulp watch"
   },
   "repository": {
     "type": "git",
@@ -25,8 +25,6 @@
   },
   "homepage": "https://github.com/philipwalton/selectable",
   "devDependencies": {
-    "babel": "^5.2.16",
-    "babelify": "^6.0.2",
     "browserify": "^10.1.1",
     "gulp": "^3.8.11",
     "gulp-rename": "^1.2.2",
