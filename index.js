@@ -23,6 +23,7 @@ export default class Selectable {
       }
       if (treeWalker.currentNode == selection.focusNode) {
         endIndex = index + selection.focusOffset;
+        break;
       }
       index += treeWalker.currentNode.length;
     }
@@ -45,8 +46,18 @@ export default class Selectable {
   set(startIndex, endIndex = startIndex) {
 
     let index = 0;
+    let length = this.root.textContent.length;
     let range = document.createRange();
+    let selection = window.getSelection();
     let treeWalker = createTextNodeTreeWalker(this.root);
+
+    // Handle negative or out-of-range start/end indexes.
+    if (startIndex < 0) startIndex = length + (startIndex + 1);
+    if (endIndex < 0) endIndex = length + (endIndex + 1);
+    if (startIndex > length) startIndex = length;
+    if (endIndex > length) endIndex = length;
+
+    console.log(startIndex, endIndex);
 
     while (treeWalker.nextNode()) {
       if (startIndex >= index &&
@@ -56,15 +67,14 @@ export default class Selectable {
       if (endIndex >= index &&
           endIndex <= index + treeWalker.currentNode.length) {
         range.setEnd(treeWalker.currentNode, endIndex - index);
+        break;
       }
       index += treeWalker.currentNode.length;
     }
 
-    let selection = window.getSelection();
     selection.removeAllRanges();
     selection.addRange(range);
   }
-
 }
 
 

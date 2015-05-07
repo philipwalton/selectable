@@ -15,7 +15,7 @@
 </head>
 <body>
 
-  <p id="container" contenteditable>this <em>is</em> some <strong>styled</strong> content inside <a href="#">a</a> <code>div</code> element.</p>
+  <div id="container" contenteditable>this <em>is</em> some <strong>styled</strong> content <span>inside <a href="#">a</a></span> <code>div</code> element.<br>It happens to also be multiple lines of text<strong>!</strong></div>
 
   <p>
     <button onclick="getSelectionIndexes()">Get selection indexes</button>
@@ -29,16 +29,16 @@
     var start = document.getElementById('start');
     var end = document.getElementById('end');
     var container = document.getElementById('container');
-    var selection = new Selectable(container);
+    var selectable = new Selectable(container);
 
     function getSelectionIndexes() {
-      var indexes = selection.get();
+      var indexes = selectable.get();
       start.value = indexes.startIndex;
       end.value = indexes.endIndex;
     }
 
     function setSelectionIndexes() {
-      selection.set(start.value, end.value);
+      selectable.set(+start.value, +end.value);
     }
   </script>
 </body>
