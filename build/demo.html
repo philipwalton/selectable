@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset=utf-8>
+  <title>Selection Test</title>
+  <style>
+    body {
+      margin: 1em;
+    }
+    [contenteditable] {
+      border: 1px dotted #666;
+      padding: .5em;
+    }
+  </style>
+</head>
+<body>
+
+  <p id="container" contenteditable>this <em>is</em> some <strong>styled</strong> content inside <a href="#">a</a> <code>div</code> element.</p>
+
+  <p>
+    <button onclick="getSelectionIndexes()">Get selection indexes</button>
+    <input id="start" placeholder="startIndex">
+    <input id="end" placeholder="endIndex">
+    <button onclick="setSelectionIndexes()">Set selection from indexes</button>
+  </p>
+
+  <script src="selectable.min.js"></script>
+  <script>
+    var start = document.getElementById('start');
+    var end = document.getElementById('end');
+    var container = document.getElementById('container');
+    var selection = new Selectable(container);
+
+    function getSelectionIndexes() {
+      var indexes = selection.get();
+      start.value = indexes.startIndex;
+      end.value = indexes.endIndex;
+    }
+
+    function setSelectionIndexes() {
+      selection.set(start.value, end.value);
+    }
+  </script>
+</body>
+</html>
