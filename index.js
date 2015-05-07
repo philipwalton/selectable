@@ -57,8 +57,6 @@ export default class Selectable {
     if (startIndex > length) startIndex = length;
     if (endIndex > length) endIndex = length;
 
-    console.log(startIndex, endIndex);
-
     while (treeWalker.nextNode()) {
       if (startIndex >= index &&
           startIndex <= index + treeWalker.currentNode.length) {
