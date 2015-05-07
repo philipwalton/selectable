@@ -19,4 +19,9 @@ gulp.task('javascript', function() {
 });
 
 
+gulp.task('watch', ['javascript'], function() {
+  gulp.watch('index.js', ['javascript']);
+});
+
+
 gulp.task('default', ['javascript']);

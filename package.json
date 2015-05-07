@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "description": "Easily get and set the text selection with an HTML element.",
   "scripts": {
-    "build": "gulp --require babel/register"
+    "build": "gulp --require babel/register",
+    "watch": "gulp --require babel/register watch"
   },
   "repository": {
     "type": "git",
