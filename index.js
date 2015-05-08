@@ -18,22 +18,34 @@ Selectable.prototype.get = function() {
   var endIndex;
   var selection = window.getSelection();
   var treeWalker = createTextNodeTreeWalker(this.root);
+  var node = treeWalker.firstChild();
 
-  while (treeWalker.nextNode()) {
-    if (treeWalker.currentNode == selection.anchorNode) {
+  // Make sure the selection is inside of root.
+  if (!this.root.contains(selection.anchorNode)) {
+    return {startIndex: null, endIndex: null};
+  }
+
+  // If there are no text nodes it means the root element is empty so both
+  // indexes must be 0.
+  if (!node) {
+    return {startIndex: 0, endIndex: 0};
+  }
+
+  while (node) {
+    if (node == selection.anchorNode) {
       startIndex = index + selection.anchorOffset;
     }
-    if (treeWalker.currentNode == selection.focusNode) {
+    if (node == selection.focusNode) {
       endIndex = index + selection.focusOffset;
       break;
     }
-    index += treeWalker.currentNode.length;
+    index += node.length;
+    node = treeWalker.nextNode();
   }
-
   return {
     startIndex: Math.min(startIndex, endIndex),
     endIndex: Math.max(startIndex, endIndex)
-  }
+  };
 }
 
 
@@ -56,6 +68,7 @@ Selectable.prototype.set = function(startIndex, endIndex) {
   var range = document.createRange();
   var selection = window.getSelection();
   var treeWalker = createTextNodeTreeWalker(this.root);
+  var node = treeWalker.firstChild();
 
   // Handle negative or out-of-range start/end indexes.
   if (startIndex < 0) startIndex = length + (startIndex + 1);
@@ -63,23 +76,21 @@ Selectable.prototype.set = function(startIndex, endIndex) {
   if (startIndex > length) startIndex = length;
   if (endIndex > length) endIndex = length;
 
-  while (treeWalker.nextNode()) {
-    if (startIndex >= index &&
-        startIndex <= index + treeWalker.currentNode.length) {
-      range.setStart(treeWalker.currentNode, startIndex - index);
+  while (node) {
+    if (startIndex >= index && startIndex <= index + node.length) {
+      range.setStart(node, startIndex - index);
     }
-    if (endIndex >= index &&
-        endIndex <= index + treeWalker.currentNode.length) {
-      range.setEnd(treeWalker.currentNode, endIndex - index);
+    if (endIndex >= index && endIndex <= index + node.length) {
+      range.setEnd(node, endIndex - index);
       break;
     }
     index += treeWalker.currentNode.length;
+    node = treeWalker.nextNode();
   }
 
   selection.removeAllRanges();
   selection.addRange(range);
 };
-
 
 
 /**

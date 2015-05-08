@@ -33,8 +33,8 @@
 
     function getSelectionIndexes() {
       var indexes = selectable.get();
-      start.value = indexes.startIndex;
-      end.value = indexes.endIndex;
+      start.value = String(indexes.startIndex);
+      end.value = String(indexes.endIndex);
     }
 
     function setSelectionIndexes() {
